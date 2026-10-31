@@ -1,0 +1,7 @@
+<div class="page-heading"><div><h2>Manajemen Produk</h2><p class="muted">Kelola daftar produk dan persediaan.</p></div><a class="button" href="/products/create">+ Tambah Produk</a></div>
+<?php if (!empty($_SESSION['flash'])): ?><div class="notice"><?= htmlspecialchars($_SESSION['flash']); unset($_SESSION['flash']); ?></div><?php endif; ?>
+<input class="table-search" type="search" placeholder="Cari nama atau deskripsi produk..." data-table-search="productsTable">
+<div class="table-wrap"><table id="productsTable"><thead><tr><th>No</th><th>Nama Produk</th><th>Deskripsi</th><th>Harga</th><th>Stok</th><th>Aksi</th></tr></thead><tbody>
+<?php if (!$products): ?><tr><td colspan="6">Belum ada produk.</td></tr><?php endif; ?>
+<?php foreach($products as $i=>$v): ?><tr><td><?= $i+1 ?></td><td><?= htmlspecialchars($v['name']) ?></td><td><?= htmlspecialchars($v['description'] ?? '-') ?></td><td>Rp <?= number_format((float)$v['price'],0,',','.') ?></td><td><?= (int)$v['stock'] ?></td><td class="actions"><a class="button small-button" href="/products/edit?id=<?= (int)$v['id'] ?>">Edit</a><form class="inline-form" method="POST" action="/products/delete" onsubmit="return confirm('Yakin ingin menghapus produk ini?')"><input type="hidden" name="id" value="<?= (int)$v['id'] ?>"><button class="danger small-button" type="submit">Hapus</button></form></td></tr><?php endforeach; ?>
+</tbody></table></div>
